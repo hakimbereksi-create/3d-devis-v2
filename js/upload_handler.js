@@ -2,9 +2,10 @@ $(document).ready(function(){
     var files;
 
     $('input[type=file]').on('change', prepareUpload);
+    $('#submit').on('click', uploadFiles);
+    
     $("#loading").hide();
 
-    // 🔥 POPUP DEVIS
     function prepareUpload(event) {
         files = event.target.files;
         console.log("FILE added to upload queue.", files[0]);
@@ -23,30 +24,23 @@ $(document).ready(function(){
         }
     }
 
-    $('#submit').on('click', uploadFiles);
-
     function uploadFiles(event) {
-        event.stopPropagation();
         event.preventDefault();
         $("#loading").show();
         
-        // 🔥 EMAILJS DIRECT (pas besoin PHP)
-        if (files && files[0]) {
-            emailjs.send('default_service', 'hb3d_devis', {
-                filename: files[0].name,
-                volume: window.hb3d_volume + ' cm³',
-                price: window.hb3d_price + ' € HT',
-                from_email: $("#email").val() || 'non renseigné',
-                from_name: $("#name").val() || 'non renseigné',
-                from_message: $("#message").val() || ''
-            }).then(function(response) {
-                $("#loading").hide();
-                alert("✅ DEVIS envoyé ! Merci 😊");
-            }, function(error) {
-                $("#loading").hide();
-                alert("❌ EmailJS non configuré. Contact: contact@hb3d.fr");
-                console.log('EmailJS error:', error);
-            });
-        }
+        emailjs.send('TON_SERVICE_ID_ICI', 'template_7mjwzt9', {
+            filename: files[0].name,
+            volume: window.hb3d_volume + ' cm³',
+            price: window.hb3d_price + ' € HT',
+            from_name: $("#name").val() || 'Client HB3D',
+            from_email: $("#email").val() || 'non renseigné',
+            from_message: $("#message").val() || ''
+        }).then(function() {
+            $("#loading").hide();
+            alert("✅ MAIL ENVOYÉ à contact@hb3d.fr ! Merci 😊");
+        }, function(error) {
+            $("#loading").hide();
+            alert("❌ Erreur. Contact: +33 06 84 88 25 54");
+        });
     }
 });
