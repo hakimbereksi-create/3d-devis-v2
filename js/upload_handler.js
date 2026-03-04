@@ -27,32 +27,28 @@ $(document).ready(function(){
     }
 
     function uploadFiles(event) {
-        event.preventDefault();
-        
-        // VÉRIF sécurité
-        if (!files || !files[0] || !volume) {
-            alert("❌ Sélectionne d'abord un fichier STL");
-            return;
-        }
-        
-        $("#loading").show();
-        console.log('🚀 EmailJS →', files[0].name, volume, price);
-        
-        emailjs.send('service_np51rgo', 'template_7mjwzt9', {
-            filename: files[0].name,
-            volume: volume + ' cm³',
-            price: price + ' € HT',
-            from_name: $("#name").val() || 'Client HB3D',
-            from_email: $("#email").val() || 'non renseigné',
-            from_message: $("#message").val() || ''
-        }).then(function(response) {
-            $("#loading").hide();
-            alert("✅ MAIL ENVOYÉ à contact@hb3d.fr ! Merci 😊");
-            console.log('✅ EmailJS OK:', response);
-        }, function(error) {
-            $("#loading").hide();
-            console.log('❌ EmailJS ERROR:', error);
-            alert("❌ Erreur EmailJS. Contact: +33 6 84 88 25 54");
-        });
+    event.preventDefault();
+    
+    if (!files || !files[0] || !volume) {
+        alert("❌ Sélectionne d'abord un fichier STL");
+        return;
     }
-});
+    
+    $("#loading").show();
+    
+    emailjs.send('service_np51rgo', 'template_7mjwzt9', {
+        filename: files[0].name,
+        volume: volume + ' cm³',
+        price: price + ' € HT',
+        from_name: $("#name").val() || 'Client HB3D',
+        from_email: $("#email").val() || 'non renseigné',
+        from_message: $("#message").val() || ''
+    }).then((response) => {
+        $("#loading").hide();
+        alert("✅ MAIL ENVOYÉ à contact@hb3d.fr ! Merci 😊");
+    }).catch((error) => {
+        $("#loading").hide();
+        console.log('❌ EmailJS ERROR:', error);
+        alert("❌ Erreur. Contact: +33 6 84 88 25 54");
+    });
+}
