@@ -13,12 +13,12 @@ $(document).ready(function(){
             window.hb3d_volume = Math.round(file.size / 1000 * 0.1); 
             window.hb3d_price = (window.hb3d_volume * 0.05).toFixed(2);
             
-            alert(`🎉 **DEVIS 3D HB3D**\\n\\n` +
-                  `📐 **${file.name}**\\n` +
-                  `📦 **${window.hb3d_volume} cm³**\\n` +
-                  `💰 **${window.hb3d_price}€ HT**\\n\\n` +
-                  `📧 contact@hb3d.fr\\n` +
-                  `📞 +33 06 84 88 25 54`);
+            alert(`🎉 **DEVIS 3D HB3D**\\n\\n` +  // ← 2 backslashes seulement
+      `📐 **${file.name}**\\n` +
+      `📦 **${window.hb3d_volume} cm³**\\n` +
+      `💰 **${window.hb3d_price}€ HT**\\n\\n` +
+      `📧 contact@hb3d.fr\\n` +
+      `📞 +33 6 84 88 25 54`);
         }
     }
 
