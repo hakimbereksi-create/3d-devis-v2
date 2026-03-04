@@ -38,7 +38,7 @@ $(document).ready(function(){
             alert("✅ MAIL ENVOYÉ à contact@hb3d.fr ! Merci 😊");
         }, function(error) {
             $("#loading").hide();
-            alert("❌ Erreur. Contact: +33 06 84 88 25 54");
+            alert("❌ Erreur. Contact: +33 6 84 88 25 54");
         });
     }
 });
