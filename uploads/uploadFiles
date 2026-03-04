@@ -8,43 +8,25 @@ function uploadFiles(event) {
     
     $("#loading").show();
     
-    // CLIENT-SIDE : Lit STL → Volume → Devis INSTANT
     const file = files[0];
-    const reader = new FileReader();
+    console.log('✅ STL chargé:', file.name, file.size/1000, 'KB');
     
-    reader.onload = function(e) {
-        try {
-            const arrayBuffer = e.target.result;
-            // Analyse STL → Volume cm³ (approximatif)
-            const volume = parseStlVolume(arrayBuffer);
-            const price = volume * 0.05; // 0.05€/cm³
-            
-            alert(`✅ Volume: ${volume.toFixed(1)} cm³\n💰 Devis: ${price.toFixed(2)} €\n📄 Email: contact@hb3d.fr`);
-            
-            // Log pour CodeCanyon démo
-            console.log('=== HB3D DEMO ===');
-            console.log('Volume:', volume.toFixed(1), 'cm³');
-            console.log('Prix:', price.toFixed(2), '€');
-            console.log('Fichier:', file.name);
-            
-        } catch(err) {
-            alert('❌ Erreur analyse STL');
-        }
+    // CLIENT-SIDE : Devis instantané (pas PHP)
+    const volume = Math.round(file.size / 1000 * 0.1); // Approximation cm³
+    const price = (volume * 0.05).toFixed(2); // 0.05€/cm³
+    
+    setTimeout(() => {
         $("#loading").hide();
-    };
-    
-    reader.readAsArrayBuffer(file);
-}
-
-// Fonction volume STL simple
-function parseStlVolume(buffer) {
-    const view = new DataView(buffer);
-    let triangles = 0;
-    
-    // Compte triangles STL binaire (header 80 + 4 + 50/triangle)
-    if (buffer.byteLength > 84 && view.getUint32(80, true) === 0x0) {
-        triangles = view.getUint32(84, true, true);
-        return triangles * 0.1; // Approximation cm³
-    }
-    return buffer.byteLength / 1000; // Fallback taille fichier
+        alert(`🎉 DEVIS 3D HB3D\n\n` +
+              `📐 Fichier: ${file.name}\n` +
+              `📦 Volume: ${volume} cm³\n` +
+              `💰 Prix: ${price} € HT\n\n` +
+              `📧 Email: contact@hb3d.fr\n` +
+              `📞 +33 6 XX XX XX XX`);
+        
+        console.log('=== HB3D DEMO ===');
+        console.log('Fichier:', file.name);
+        console.log('Volume:', volume, 'cm³');
+        console.log('Prix:', price, '€');
+    }, 1500);
 }
