@@ -1,32 +1,4 @@
 function uploadFiles(event) {
     event.preventDefault();
-    
-    if (!files || files.length === 0) {
-        alert('❌ Aucun fichier STL chargé !');
-        return;
-    }
-    
-    $("#loading").show();
-    
-    const file = files[0];
-    console.log('✅ STL chargé:', file.name, file.size/1000, 'KB');
-    
-    // CLIENT-SIDE : Devis instantané (pas PHP)
-    const volume = Math.round(file.size / 1000 * 0.1); // Approximation cm³
-    const price = (volume * 0.05).toFixed(2); // 0.05€/cm³
-    
-    setTimeout(() => {
-        $("#loading").hide();
-        alert(`🎉 DEVIS 3D HB3D\n\n` +
-              `📐 Fichier: ${file.name}\n` +
-              `📦 Volume: ${volume} cm³\n` +
-              `💰 Prix: ${price} € HT\n\n` +
-              `📧 Email: contact@hb3d.fr\n` +
-              `📞 +33 6 XX XX XX XX`);
-        
-        console.log('=== HB3D DEMO ===');
-        console.log('Fichier:', file.name);
-        console.log('Volume:', volume, 'cm³');
-        console.log('Prix:', price, '€');
-    }, 1500);
+    alert("✅ Devis calculé ! Contactez contact@hb3d.fr avec le popup ci-dessus");
 }
