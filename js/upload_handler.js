@@ -1,9 +1,7 @@
 $(document).ready(function(){
     var files;
-
     $('input[type=file]').on('change', prepareUpload);
     $('#submit').on('click', uploadFiles);
-    
     $("#loading").hide();
 
     function prepareUpload(event) {
@@ -28,7 +26,7 @@ $(document).ready(function(){
         event.preventDefault();
         $("#loading").show();
         
-        emailjs.send('TON_SERVICE_ID_ICI', 'template_7mjwzt9', {
+        emailjs.send('service_np51rgo', 'template_7mjwzt9', {
             filename: files[0].name,
             volume: window.hb3d_volume + ' cm³',
             price: window.hb3d_price + ' € HT',
