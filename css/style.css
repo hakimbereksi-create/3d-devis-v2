@@ -16,9 +16,9 @@
 }
 
 body { 
-    background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); /* ROUGE HB3D */
+    background: #DC2626; /* Rouge HB3D pur */
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     min-height: 100vh; 
     padding: 20px;
-    color: var(--blanc-pure);
+    color: white;
 }
