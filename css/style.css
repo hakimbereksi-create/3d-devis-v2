@@ -15,11 +15,10 @@
     opacity: 0.8;
 }
 
-textarea {
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;         /* Opera/IE 8+ */
+body { 
+    background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); /* ROUGE HB3D */
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh; 
+    padding: 20px;
+    color: var(--blanc-pure);
 }
