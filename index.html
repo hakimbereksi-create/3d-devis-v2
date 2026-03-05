@@ -1,136 +1,231 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>HB3D 3D Devis PRO</title>
-    
-    <!-- 🔥 EMAILJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        emailjs.init("DCpEyOckFUUHGxM_O");
-        console.log("EmailJS chargé:", emailjs.version);
-    </script>
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- etc... reste identique -->
-</head>
-<!-- reste identique jusqu'aux scripts -->
-
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <title>🚀 HB3D Devis 3D Instantané</title>
+    <style>
+        /* 🎨 PALETTE HB3D ROUGE/VERT */
+        :root {
+            --rouge-hb3d: #DC2626;
+            --vert-hb3d: #16A34A;
+            --fond-card: rgba(255,255,255,0.95);
+            --ombre: 0 20px 40px rgba(220,38,38,0.2);
+        }
+        
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; 
+            padding: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* HEADER HB3D */
+        .header {
+            text-align: center; 
+            color: white; 
+            margin-bottom: 40px;
+        }
+        .header h1 { 
+            font-size: 2.5em; 
+            background: linear-gradient(45deg, var(--rouge-hb3d), var(--vert-hb3d));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        /* CARDS PRINCIPALES */
+        .main-grid {
+            display: grid; 
+            grid-template-columns: 1fr 400px; 
+            gap: 30px; 
+            align-items: start;
+        }
+        
+        .viewer-card, .form-card {
+            background: var(--fond-card);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--ombre);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        .viewer-card:hover, .form-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 30px 60px rgba(220,38,38,0.3);
+        }
+        
+        /* VIEWER 3D */
+        .viewer-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #cv { 
+            width: 100%; 
+            height: 400px; 
+            border-radius: 16px; 
+            border: 3px solid rgba(220,38,38,0.2);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+        }
+        #loading {
+            display: flex; align-items: center; justify-content: center;
+            height: 400px; color: var(--rouge-hb3d);
+            font-size: 1.2em;
+        }
+        
+        /* UPLOAD ZONE */
+        .upload-zone {
+            border: 3px dashed var(--rouge-hb3d);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(220,38,38,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .upload-zone:hover {
+            background: rgba(220,38,38,0.1);
+            border-color: var(--vert-hb3d);
+        }
+        #file { display: none; }
+        
+        /* FORMULAIRE HB3D */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group h4 {
+            color: var(--rouge-hb3d);
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .form-group input[type=radio]:checked + label,
+        .form-group input[type=radio]:hover + label {
+            background: var(--vert-hb3d);
+            color: white;
+        }
+        
+        /* CHAMPS */
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(220,38,38,0.2);
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.8);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--vert-hb3d);
+            box-shadow: 0 0 0 4px rgba(22,163,74,0.1);
+        }
+        
+        /* BOUTON HB3D */
+        #submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, var(--rouge-hb3d), var(--vert-hb3d));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(220,38,38,0.4);
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .viewer-card, .form-card { padding: 20px; }
+        }
+    </style>
 </head>
 <body>
-
-    <!-- Main div -->
-    <div id="div" class="container">
-        <strong><h1>🚀 HB3D Analyse Volume Calculateur STL</h1></strong>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div id="stlselector" class="bg-warning">
-                    <label for="file"><b>📁 Votre fichier STL:</b></label>
-                    <input type="file" name="file" id="file" accept=".stl"/>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 HB3D</h1>
+            <p>Calculateur de Devis Impression 3D Instantané</p>
+        </div>
+        
+        <div class="main-grid">
+            <!-- VIEWER 3D -->
+            <div class="viewer-card">
+                <div class="upload-zone" onclick="document.getElementById('file').click()">
+                    <label>📁 Glissez votre fichier STL ou cliquez ici</label>
+                    <input type="file" id="file" accept=".stl">
                 </div>
-
-                <div id="view3d">
+                <div class="viewer-section">
                     <canvas id="cv" width="400" height="400"></canvas>
-                    <div class="panel panel-info" id="tip">
-                        <table class="table">
-                            <tr><td>Zoom</td><td><kbd>Wheel</kbd></td></tr>
-                            <tr><td>Rotate</td><td><kbd>Drag</kbd></td></tr>
-                            <tr><td>Pan</td><td><kbd>Ctrl+Drag</kbd></td></tr>
-                        </table>
-                    </div>
-                    <div id="loading">
-                        <img src="css/images/loading.gif" alt="Loading..."/>
-                    </div>
+                    <div id="loading">⏳ Chargement du modèle 3D...</div>
                 </div>
-
-                <!-- Render controls -->
-                <table class="table">
-                    <tr>
-                        <td><button class="btn btn-default btn-xs" id="info">Interact</button></td>
-                        <td>
-                            <div class="btn-group dropup pull-right">
-                                <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                    View <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#wireframe" class="rendermode">Wireframe</a></li>
-                                    <li><a href="#point" class="rendermode">Points</a></li>
-                                    <li><a href="#flat" class="rendermode">Filled</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
             </div>
-
-            <div class="col-md-4">
-                <div class="list-group container-fluid">
-                    <form id="form" data-netlify="true">
-
-                        <!-- Matériaux -->
-                        <div class="list-group-item">
-                            <h4>🏭 Matériau</h4>
-                            <label class="radio-inline"><input type="radio" name="material" value="ABS"> ABS</label>
-                            <label class="radio-inline"><input type="radio" name="material" value="PLA"> PLA</label>
-                            <label class="radio-inline"><input type="radio" name="material" value="PETG"> PETG</label>
-                            <label class="radio-inline"><input type="radio" name="material" value="Résine"> Résine</label>
-                        </div>
-
-                        <!-- Couleur -->
-                        <div class="list-group-item">
-                            <h4>🎨 Couleur</h4>
-                            <label class="radio-inline"><input type="radio" name="color" value="Blanc"> Blanc</label>
-                            <label class="radio-inline"><input type="radio" name="color" value="Noir"> Noir</label>
-                            <label class="radio-inline"><input type="radio" name="color" value="Rouge"> Rouge</label>
-                            <label class="radio-inline"><input type="radio" name="color" value="Bleu"> Bleu</label>
-                        </div>
-
-                        <!-- Quantité -->
-                        <div class="list-group-item">
-                            <h4>📦 Quantité</h4>
-                            <input name="qty" type="number" class="form-control" min="1" value="1">
-                        </div>
-
-                        <!-- Message -->
-                        <div class="list-group-item">
-                            <h4>💬 Message</h4>
-                            <textarea name="message" id="message" class="form-control" rows="3" maxlength="200" placeholder="Instructions spéciales..."></textarea>
-                        </div>
-
-                        <!-- Email + Nom -->
-                        <div class="list-group-item list-group-item-info">
-                            <h4>📧 Contact</h4>
-                            <input name="name" id="name" class="form-control" placeholder="Votre nom">
-                            <input name="email" id="email" type="email" class="form-control" placeholder="email@example.com">
-                        </div>
-
-                        <!-- Bouton Submit -->
-                        <button id="submit" type="button" class="btn btn-success btn-block list-group-item">
-                            <h3>🚀 ENVOYER DEVIS <span class="glyphicon glyphicon-send"></span></h3>
-                        </button>
-                    </form>
-                </div>
+            
+            <!-- FORMULAIRE -->
+            <div class="form-card">
+                <form id="form">
+                    <div class="form-group">
+                        <h4>🏭 Matériau</h4>
+                        <label><input type="radio" name="material" value="PLA"> PLA</label>
+                        <label><input type="radio" name="material" value="ABS"> ABS</label>
+                        <label><input type="radio" name="material" value="PETG"> PETG</label>
+                        <label><input type="radio" name="material" value="Résine"> Résine</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>🎨 Couleur</h4>
+                        <label><input type="radio" name="color" value="Blanc"> Blanc</label>
+                        <label><input type="radio" name="color" value="Noir"> Noir</label>
+                        <label><input type="radio" name="color" value="Rouge"> Rouge</label>
+                        <label><input type="radio" name="color" value="Bleu"> Bleu</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>📦 Quantité</h4>
+                        <input name="qty" type="number" class="form-control" min="1" value="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>💬 Message</h4>
+                        <textarea name="message" class="form-control" rows="3" placeholder="Instructions spéciales..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h4>📧 Contact</h4>
+                        <input name="name" class="form-control" placeholder="Votre nom">
+                        <input name="email" type="email" class="form-control" placeholder="email@example.com">
+                    </div>
+                    
+                    <button id="submit" type="button">🚀 Obtenir Devis Instantané</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts actuels -->
     <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/jsc3d_mod.js"></script>
-    <script src="js/jsc3d.console.js"></script>
     <script src="js/object_viewer.js"></script>
-    <script src="js/upload_handler.js"></script>
-
+    <!-- Ton upload_handler.js actuel ici -->
 </body>
 </html>
-
-
-
